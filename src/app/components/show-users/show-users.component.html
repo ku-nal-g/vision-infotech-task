@@ -1,0 +1,161 @@
+<div class="main-div">
+    <div class="child-div">
+        <div class="row ps-5">
+            <div *ngFor="let data of studentData;let i =index" class="card-div">
+                <div class="text-center">
+                    <img class="img-fluid rounded" [src]="data.image" alt="Avatar" width="100">
+                </div>
+                <div class="container-div text-center">
+                    <h4><b>{{data.firstName}} {{data.lastName}}</b></h4>
+                    <span>Gender : {{data.gender}}</span><br>
+                    <span>Age: {{data.age}}</span><br>
+                    <span>City: {{data.city}}</span><br>
+                    <span>Hobbies: {{data.hobbies}}</span>
+                </div>
+                <div class="edit-btn text-center p-2">
+                    <!--edit button-->
+                    <button (click)="getUpdateIndex(i)" data-toggle="modal" data-target="#updateModal"
+                        title="update user" class="me-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path
+                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path fill-rule="evenodd"
+                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                        </svg>
+                    </button>
+
+                    <!--delete button-->
+                    <button title="delete user" data-toggle="modal" data-target="#deleteModal"
+                        (click)="getDeleteIndex(i)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-trash-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                        </svg>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Delete user Modal-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete Modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sue you want to delete {{deleteUserName}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" data-dismiss="modal" (click)="deleteUser()" class="btn btn-success">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit user modal-->
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div [formGroup]="updateForm" class="modal-body">
+                <div class="form-group mb-2">
+                    <label for="exampleInputEmail1">First Name</label>
+                    <input type="text" formControlName="fname" class="form-control">
+                    <span class="text-danger"
+                        *ngIf="(fname?.dirty || fname?.touched) && fname?.invalid && fname?.hasError('required')">
+                        First Name is required.
+                    </span>
+                </div>
+                <div class="form-group mb-2">
+                    <label for="exampleInputEmail1">Last Name</label>
+                    <input type="text" formControlName="lname" class="form-control">
+                    <span class="text-danger"
+                        *ngIf="(lname?.dirty || lname?.touched) && lname?.invalid && lname?.hasError('required')">
+                        Last Name is required.
+                    </span>
+                </div>
+                <div class="row mt-3 mb-2">
+                    <div class="col">
+                        <input type="number" class="form-control" formControlName="age" placeholder="Age"
+                            aria-label="Age">
+                        <span class="text-danger"
+                            *ngIf="(age?.dirty || age?.touched) && age?.invalid && age?.hasError('required')">
+                            Age is required.
+                        </span>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" formControlName="city" aria-label="Default select example">
+                            <option selected>City</option>
+                            <option *ngFor="let city of cities">{{city}}</option>{{city}}
+                        </select>
+                        <span class="text-danger" *ngIf=" isSubmitted && city?.hasError('required')">
+                            City is required.
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <span>Hobbies:</span><br>
+                    <input type="checkbox" formControlName="hobbies" class="form-check-input" id="hobbies1" name="hobbies1"
+                      (change)="getValue(1,$event)" value="reading">
+                    <label class="form-check-label"> Reading</label><br>
+                    <input type="checkbox" formControlName="hobbies" class="form-check-input" id="hobbies2" name="hobbies2"
+                    (change)="getValue(2,$event)" value="singing">
+                    <label class="form-check-label"> Singing</label><br>
+                    <input type="checkbox" formControlName="hobbies" class="form-check-input" id="hobbies3" name="hobbies3"
+                    (change)="getValue(3,$event)" value="dancing">
+                    <label class="form-check-label"> Dancing</label><br>
+                    <span class="text-danger"
+                    *ngIf=" isSubmitted && hobbies?.hasError('required')">
+                   At least one should be selected 
+                </span>
+                  </div>
+          
+                  <div class="mb-3">
+                    <span class="me-2">Gender:</span>
+                    <label class="radio-inline">
+                      <input type="radio" formControlName="gender" class="ms-1" name="gender" value="male">Male
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" class="ms-1" formControlName="gender" name="gender" value="female">Female
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" class="ms-1" formControlName="gender" name="gender" value="other">Other
+                    </label><br>
+                    <span class="text-danger"
+                    *ngIf=" isSubmitted && gender?.hasError('required')">
+                    Gender is required.
+                </span>
+                  </div>
+          
+                  <div class="mb-3">
+                    <label for="formFile" class="form-label">Upload Photo:</label>
+                    <input (change)="handleFileSelect($event)" class="form-control" formControlName="photo" type="file" id="formFile">
+                    <span class="text-danger"
+                    *ngIf="(photo?.dirty || photo?.touched) && photo?.invalid && photo?.hasError('required')">
+                    Photo is required.
+                </span>
+                  </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="onSubmit()" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,94 @@
+<div class="main-div">
+  <div class="child-div">
+    <form [formGroup]="registerForm">
+      <fieldset>
+        <legend style="text-align: center; text-decoration: underline;">Registration Form</legend>
+        <div class="mb-3">
+          <input type="text" class="form-control" formControlName="fname" placeholder="First name" aria-label="First name">
+          <span class="text-danger"
+                  *ngIf="(fname?.dirty || fname?.touched) && fname?.invalid && fname?.hasError('required')">
+                  First Name is required.
+              </span>
+        </div>
+
+          <div class="mb-3">
+            <input type="text" class="form-control" formControlName="lname" placeholder="Last name" aria-label="Last name">
+            <span class="text-danger"
+            *ngIf="(lname?.dirty || lname?.touched) && lname?.invalid && lname?.hasError('required')">
+            Last Name is required.
+        </span>
+          </div>
+
+        <div class="row mt-3 mb-2">
+          <div class="col">
+            <input type="number" class="form-control" formControlName="age" placeholder="Age" aria-label="Age">
+            <span class="text-danger"
+            *ngIf="(age?.dirty || age?.touched) && age?.invalid && age?.hasError('required')">
+            Age is required.
+        </span>
+          </div>
+          <div class="col">
+            <select class="form-select" formControlName="city" aria-label="Default select example">
+              <option selected>City</option>
+              <option *ngFor="let city of cities">{{city}}</option>{{city}}
+            </select>
+            <span class="text-danger"
+            *ngIf=" isSubmitted && city?.hasError('required')">
+            City is required.
+        </span>
+          </div>
+
+        </div>
+
+        <div class="mb-2">
+          <span>Hobbies:</span><br>
+          <input type="checkbox" formControlName="hobbies" class="form-check-input" id="hobbies1" name="hobbies1"
+            (change)="getValue(1,$event)" value="reading">
+          <label class="form-check-label"> Reading</label><br>
+          <input type="checkbox" formControlName="hobbies" class="form-check-input" id="hobbies2" name="hobbies2"
+          (change)="getValue(2,$event)" value="singing">
+          <label class="form-check-label"> Singing</label><br>
+          <input type="checkbox" formControlName="hobbies" class="form-check-input" id="hobbies3" name="hobbies3"
+          (change)="getValue(3,$event)" value="dancing">
+          <label class="form-check-label"> Dancing</label><br>
+          <span class="text-danger"
+          *ngIf=" isSubmitted && hobbies?.hasError('required')">
+         At least one should be selected 
+      </span>
+        </div>
+
+        <div class="mb-3">
+          <span class="me-2">Gender:</span>
+          <label class="radio-inline">
+            <input type="radio" formControlName="gender" class="ms-1" name="gender" value="male">Male
+          </label>
+          <label class="radio-inline">
+            <input type="radio" class="ms-1" formControlName="gender" name="gender" value="female">Female
+          </label>
+          <label class="radio-inline">
+            <input type="radio" class="ms-1" formControlName="gender" name="gender" value="other">Other
+          </label><br>
+          <span class="text-danger"
+          *ngIf=" isSubmitted && gender?.hasError('required')">
+          Gender is required.
+      </span>
+        </div>
+
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Upload Photo:</label>
+          <input (change)="handleFileSelect($event)" class="form-control" formControlName="photo" type="file" id="formFile">
+          <span class="text-danger"
+          *ngIf="(photo?.dirty || photo?.touched) && photo?.invalid && photo?.hasError('required')">
+          Photo is required.
+      </span>
+        </div>
+
+        <div class="container">
+          <div class="col-md-12 text-center">
+            <button type="button" (click)="onSubmit()" class="btn btn-danger">Submit</button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
